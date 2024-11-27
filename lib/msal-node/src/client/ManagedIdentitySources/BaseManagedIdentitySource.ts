@@ -133,12 +133,12 @@ export abstract class BaseManagedIdentitySource {
                 managedIdentityId
             );
 
-        // if claims are present, ESTS will get a new token
+        // if claims are present, the MSI will get a new token
         if (managedIdentityRequest.claims) {
             networkRequest.queryParameters.bypass_cache = "true";
         }
 
-        // if client capabilities are present, send them to ESTS
+        // if client capabilities are present, send them to the MSI
         if (managedIdentityRequest.clientCapabilities?.length) {
             networkRequest.queryParameters.xms_cc =
                 managedIdentityRequest.clientCapabilities.toString();

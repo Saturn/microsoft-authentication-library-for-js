@@ -550,61 +550,7 @@ describe("Acquires a token successfully via an IMDS Managed Identity", () => {
             );
         });
 
-        test('checks if a token was cached or not and if was "bypass_cache=true" was sent to ESTS depending on whether or not claims are provided, and ensures "xms=client-capabilites-string" was sent to ESTS when client capabilities are provided via the Managed Identity Request Parameters', async () => {
-            const sendGetRequestAsyncSpy: jest.SpyInstance = jest.spyOn(
-                networkClient,
-                <any>"sendGetRequestAsync"
-            );
-
-            let networkManagedIdentityResult: AuthenticationResult =
-                await systemAssignedManagedIdentityApplication.acquireToken({
-                    clientCapabilities: CAE_CONSTANTS.CLIENT_CAPABILITIES,
-                    resource: MANAGED_IDENTITY_RESOURCE,
-                });
-            expect(networkManagedIdentityResult.fromCache).toBe(false);
-            expect(networkManagedIdentityResult.accessToken).toEqual(
-                DEFAULT_SYSTEM_ASSIGNED_MANAGED_IDENTITY_AUTHENTICATION_RESULT.accessToken
-            );
-            let tokenRequest = sendGetRequestAsyncSpy.mock.lastCall;
-            let url = tokenRequest[0];
-            expect(url.includes("bypass_cache=true")).toBe(false);
-            expect(
-                url.includes(
-                    `xms_cc=${CAE_CONSTANTS.CLIENT_CAPABILITIES.toString()}`
-                )
-            ).toBe(true);
-
-            const cachedManagedIdentityResult: AuthenticationResult =
-                await systemAssignedManagedIdentityApplication.acquireToken({
-                    clientCapabilities: CAE_CONSTANTS.CLIENT_CAPABILITIES,
-                    resource: MANAGED_IDENTITY_RESOURCE,
-                });
-            expect(cachedManagedIdentityResult.fromCache).toBe(true);
-            expect(cachedManagedIdentityResult.accessToken).toEqual(
-                DEFAULT_SYSTEM_ASSIGNED_MANAGED_IDENTITY_AUTHENTICATION_RESULT.accessToken
-            );
-
-            networkManagedIdentityResult =
-                await systemAssignedManagedIdentityApplication.acquireToken({
-                    claims: TEST_CONFIG.CLAIMS,
-                    clientCapabilities: CAE_CONSTANTS.CLIENT_CAPABILITIES,
-                    resource: MANAGED_IDENTITY_RESOURCE,
-                });
-            expect(networkManagedIdentityResult.fromCache).toBe(false);
-            expect(networkManagedIdentityResult.accessToken).toEqual(
-                DEFAULT_SYSTEM_ASSIGNED_MANAGED_IDENTITY_AUTHENTICATION_RESULT.accessToken
-            );
-            tokenRequest = sendGetRequestAsyncSpy.mock.lastCall;
-            url = tokenRequest[0];
-            expect(url.includes("bypass_cache=true")).toBe(true);
-            expect(
-                url.includes(
-                    `xms_cc=${CAE_CONSTANTS.CLIENT_CAPABILITIES.toString()}`
-                )
-            ).toBe(true);
-        });
-
-        test('checks if a token was cached or not and if was "bypass_cache=true" was sent to ESTS depending on whether or not claims are provided, and ensures "xms=client-capabilites-string" was sent to ESTS when client capabilities are provided via the Managed Identity configuration object', async () => {
+        test('checks if a token was cached or not and if was "bypass_cache=true" was sent to the MSI depending on whether or not claims are provided, and ensures "xms=client-capabilites-string" was sent to ESTS when client capabilities are provided via the Managed Identity configuration object', async () => {
             const sendGetRequestAsyncSpy: jest.SpyInstance = jest.spyOn(
                 networkClient,
                 <any>"sendGetRequestAsync"
@@ -669,7 +615,7 @@ describe("Acquires a token successfully via an IMDS Managed Identity", () => {
             ).toBe(true);
         });
 
-        test('ignores a cached token when claims are provided, and ensures "bypass_cache=true" was sent to ESTS', async () => {
+        test('ignores a cached token when claims are provided, and ensures "bypass_cache=true" was sent to the MSI', async () => {
             const sendGetRequestAsyncSpy: jest.SpyInstance = jest.spyOn(
                 networkClient,
                 <any>"sendGetRequestAsync"

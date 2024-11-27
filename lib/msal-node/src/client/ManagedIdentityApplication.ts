@@ -141,9 +141,7 @@ export class ManagedIdentityApplication {
             authority: this.fakeAuthority.canonicalAuthority,
             correlationId: this.cryptoProvider.createNewGuid(),
             claims: managedIdentityRequestParams.claims,
-            clientCapabilities:
-                managedIdentityRequestParams.clientCapabilities ||
-                this.config.clientCapabilities,
+            clientCapabilities: this.config.clientCapabilities,
         };
 
         if (
