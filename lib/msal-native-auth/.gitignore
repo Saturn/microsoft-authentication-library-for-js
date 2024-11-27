@@ -6,6 +6,7 @@
 .cache
 /dist
 /lib
+/samples/lib
 
 # Type docs
 ref/
