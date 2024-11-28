@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-export const GrantTypeConstants = {
+export const GrantType = {
     PASSWORD: "password",
     OOB: "oob",
     CONTINUATION_TOKEN: "continuation_token",
@@ -11,7 +11,7 @@ export const GrantTypeConstants = {
     ATTRIBUTES: "attributes",
 };
 
-export const ChallengeTypeConstants = {
+export const ChallengeType = {
     PASSWORD: "password",
     OOB: "oob",
     REDIRECT: "redirect",

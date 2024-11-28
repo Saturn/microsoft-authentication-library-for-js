@@ -4,7 +4,7 @@
  */
 
 import { RedirectError, UnknownApiError } from "../error/NativeAuthApiError.js";
-import { ChallengeTypeConstants } from "../NativeAuthConstants.js";
+import { ChallengeType } from "../NativeAuthConstants.js";
 import { INativeAuthApiClient } from "../network_client/INativeAuthApiClient.js";
 import {
     SignInChallengeRequest,
@@ -50,9 +50,7 @@ export class SigninClient extends InteractionClientBase {
                 initiateRequest
             );
 
-        if (
-            initiateResponse.challengeType === ChallengeTypeConstants.REDIRECT
-        ) {
+        if (initiateResponse.challengeType === ChallengeType.REDIRECT) {
             throw new RedirectError(parameters.correlationId);
         }
 
@@ -80,15 +78,13 @@ export class SigninClient extends InteractionClientBase {
                 challengeRequest
             );
 
-        if (
-            initiateResponse.challengeType === ChallengeTypeConstants.REDIRECT
-        ) {
+        if (initiateResponse.challengeType === ChallengeType.REDIRECT) {
             throw new RedirectError(parameters.correlationId);
         }
 
         if (
             challengeResponse instanceof SignInContinuationTokenResponse &&
-            challengeResponse.challengeType === ChallengeTypeConstants.PASSWORD
+            challengeResponse.challengeType === ChallengeType.PASSWORD
         ) {
             // Password is required
             return new SignInWithContinuationTokenResult(
@@ -98,7 +94,7 @@ export class SigninClient extends InteractionClientBase {
             );
         } else if (
             challengeResponse instanceof SignInCodeSendResponse &&
-            challengeResponse.challengeType === ChallengeTypeConstants.OOB
+            challengeResponse.challengeType === ChallengeType.OOB
         ) {
             /*
              * Code is required

@@ -5,7 +5,7 @@
 
 import { InvalidArgumentError } from "../../error/InvalidArgumentError.js";
 import { SignInStartParams } from "../../interaction_client/parameter/SignInParams.js";
-import { GrantTypeConstants } from "../../NativeAuthConstants.js";
+import { GrantType } from "../../NativeAuthConstants.js";
 import { NativeAuthApiRequestBase } from "./NativeAuthApiRequestBase.js";
 
 export class SignInInitiateRequest extends NativeAuthApiRequestBase {
@@ -207,7 +207,7 @@ export class SignInOobTokenRequestParameters extends SignInTokenRequestBase {
         super(
             clientId,
             continuationToken,
-            GrantTypeConstants.OOB,
+            GrantType.OOB,
             correlationId,
             scopes,
             challengeType
@@ -231,7 +231,7 @@ export class SignInPasswordTokenRequestParameters extends SignInTokenRequestBase
         super(
             clientId,
             continuationToken,
-            GrantTypeConstants.PASSWORD,
+            GrantType.PASSWORD,
             correlationId,
             scopes,
             challengeType
@@ -255,7 +255,7 @@ export class SignInContinuationTokenRequestParameters extends SignInTokenRequest
         super(
             clientId,
             continuationToken,
-            GrantTypeConstants.CONTINUATION_TOKEN,
+            GrantType.CONTINUATION_TOKEN,
             correlationId,
             scopes,
             challengeType
